@@ -1,4 +1,4 @@
-USE moviePlanner_db;
+USE moviePlannerDB;
 
 INSERT INTO movies (movie)
-VALUES ("Shawshank Redemption")
+VALUES ("Shawshank Redemption");

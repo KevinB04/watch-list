@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "RememberThis!4",
+  password: "Mickey19",
   database: "moviePlannerDB",
 });
 
@@ -40,37 +40,72 @@ app.get("/", (req, res) => {
 });
 
 app.get("/movies/new", (req, res) => {
-  res.send("A form to create a new movie will go here.");
+  //   res.send("A form to create a new movie will go here.");
+  res.render("new-movie");
 });
 
 app.get("/movies/:id", (req, res) => {
-//   res.send("A single movie will go here.");
-    const movieId = req.params.id;
+  //   res.send("A single movie will go here.");
+  const movieId = req.params.id;
 
-    connection.query("SELECT * FROM movies WHERE id = ?", [movieId], (err, data) => {
-        // console.log(data);
-        res.render("single-movie", data[0]);
-    })
+  connection.query(
+    "SELECT * FROM movies WHERE id = ?",
+    [movieId],
+    (err, data) => {
+      // console.log(data);
+      res.render("single-movie", data[0]);
+    }
+  );
 });
 
 app.get("/movies/:id/edit", (req, res) => {
-  res.send("A form to update the movie will go here.");
+  const movieId = req.params.id;
+  //   res.send("A form to update the movie will go here.");
+  connection.query(
+    "SELECT * FROM movies WHERE id = ?",
+    [movieId],
+    (err, data) => {
+      res.render("edit-movie", data[0]);
+    }
+  );
 });
 
 // API ROUTES
 
 app.post("/api/movies", (req, res) => {
-  res.send(
-    "After creating a new movie in the database, I will return a response."
+  //   res.send(
+  //     "After creating a new movie in the database, I will return a response."
+  //   );
+  connection.query(
+    "INSERT INTO movies (movie) VALUES (?)",
+    [req.body.movie],
+    (err, result) => {
+      res.json(result);
+    }
   );
 });
 
 app.put("/api/movies/:id", (req, res) => {
-  res.send("After updating a movie by ID, I will return a response");
+  //   res.send("After updating a movie by ID, I will return a response");
+  connection.query(
+    "UPDATE movies SET movie = ? WHERE id = ?",
+    [req.body.movie, req.params.id],
+    (err, result) => {
+      res.json(result);
+    }
+  );
 });
 
 app.delete("/api/movies/:id", (req, res) => {
-  res.send("After deleting amovie by ID, I will return a response.");
+  const movieId = req.params.id;
+  //   res.send("After deleting amovie by ID, I will return a response.");
+  connection.query(
+    "DELETE FROM movies WHERE id = ?",
+    [movieId],
+    (err, result) => {
+      res.json(result);
+    }
+  );
 });
 
 // LISTEN ON THE PORT
