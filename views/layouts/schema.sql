@@ -4,7 +4,7 @@ CREATE DATABASE moviePlanner_db;
 
 USE moviePlanner_db;
 
-CREATE TABLE wishes (
+CREATE TABLE movies (
 	id int NOT NULL AUTO_INCREMENT,
     movie VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
